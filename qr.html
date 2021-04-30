@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Instascan</title>
+    <script type="text/javascript" src="instascan.min.js"></script>
+  </head>
+  <body>
+    <video id="preview"></video>
+    <button onclick='start()'>start</button>
+    <script type="text/javascript">
+
+    let camerasRef;
+      let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
+      scanner.addListener('scan', function (content) {  
+        console.log(content);
+      });
+      function start(){
+      Instascan.Camera.getCameras().then(function (cameras) {
+          alert(cameras[0])
+          camerasRef = cameras
+        if (cameras.length > 0) {
+          scanner.start(cameras[0]).then(() => console.log('scanningStarted'));
+        } else {
+            alert('no cameras found')
+          console.error('No cameras found.');
+        }
+      }).catch(function (e) {
+        console.error(e);
+      });}
+    </script>
+  </body>
+</html>
