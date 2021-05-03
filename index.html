@@ -7,34 +7,36 @@
 
 <body>
 <div id="container">
-<video autoplay="true" id="videoElement" muted playsinline>
+<video autoplay="true" id="preview" muted playsinline>
     
 
 </video>
-<button onclick="startMedia()">Start video</button>
+<button onclick="start()">Start video</button>
 </div>
 <script>
 
 
-  var video = document.querySelector("#videoElement");
-    
+let camerasRef;
+      let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
+      scanner.addListener('scan', function (content) {  
+        let output = document.getElementById('output');
+        output.append(content);
+        console.log(content);
+      });
+      function start(){
+      Instascan.Camera.getCameras().then(function (cameras) {
+          camerasRef = cameras
+        if (cameras.length > 0) {
+          scanner.start(cameras[0]).then(() => console.log('scanningStarted'));
+        } else {
+            alert('no cameras found')
+          console.error('No cameras found.');
+        }
+      }).catch(function (e) {
+        console.error(e);
+      });}
 
-  function startMedia(){
-      alert('startingMedia')
-    if (navigator.mediaDevices.getUserMedia) {
-        navigator.mediaDevices.getUserMedia({ video: true })
-        .then(function (stream) {
-        video.srcObject = stream;
-        })
-        .catch(function (err0r) {
-            alert('notsupported',err0r)
-        console.log("Something went wrong!");
-        });
-    }else{
-        alert('notsupported')
-    }
-    alert('notsupported')
-  }
+
   
 </script>
 </body>
