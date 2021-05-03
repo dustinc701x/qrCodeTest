@@ -27,6 +27,7 @@ let camerasRef;
       });
       function start(){
       Instascan.Camera.getCameras().then(function (cameras) {
+        console.log(cameras)
           camerasRef = cameras
         if (cameras.length > 0) {
           scanner.start(cameras[0]).then(() => console.log('scanningStarted'));
