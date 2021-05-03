@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <title>Display Webcam Stream</title>
+<script src="./instascan.min.js"></script>
 </head>
 
 <body>
@@ -17,14 +18,13 @@
 
 
 let camerasRef;
-      let scanner;
-      function start(){
-        scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
+      let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
       scanner.addListener('scan', function (content) {  
         let output = document.getElementById('output');
         output.append(content);
         console.log(content);
       });
+      function start(){
       Instascan.Camera.getCameras().then(function (cameras) {
           camerasRef = cameras
         if (cameras.length > 0) {
